@@ -1,7 +1,7 @@
 package main
 
 import (
-	"adventofcode2015/common"
+	"adventofcode2024/common"
 	"fmt"
 )
 
