@@ -75,24 +75,32 @@ func step1(reports [][]int) int {
 	return count
 }
 
+func isSafe2(report []int) bool {
+	isSafeOrError := isSafe(report)
+	if isSafeOrError == -1 {
+		return true
+	}
+	for i := isSafeOrError - 1; i <= isSafeOrError+1; i++ {
+		if i >= 0 {
+			partial := []int{}
+			for idx, s := range report {
+				if idx != i {
+					partial = append(partial, s)
+				}
+			}
+			if isSafe(partial) == -1 {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 func step2(reports [][]int) int {
 	count := 0
 	for _, report := range reports {
-		isSafeOrError := isSafe(report)
-		if isSafeOrError == -1 {
+		if isSafe2(report) {
 			count++
-		} else {
-			partial := report[:isSafeOrError]
-			partial = append(partial, report[isSafeOrError+1:]...)
-			if isSafe(partial) == -1 {
-				count++
-			} else {
-				partial := report[:isSafeOrError+1]
-				partial = append(partial, report[isSafeOrError+2:]...)
-				if isSafe(partial) == -1 {
-					count++
-				}
-			}
 		}
 	}
 	return count
