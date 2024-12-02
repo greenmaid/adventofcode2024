@@ -22,19 +22,18 @@ def parse_data(lines):
         result.append(numbers)
     return result
 
-def test_stages(stages):
+def is_safe(stages):
     if stages[1] - stages[0] > 0:
         direction = "+"
     else:
         direction = "-"
     for i in range(len(stages)-1):
         diff = stages[i+1] - stages[i]
-        print(diff)
         if diff == 0 or abs(diff) > 3:
             return False
         if diff > 0 and direction == "-":
             return False
-        if diff < 0 and direction == "=":
+        if diff < 0 and direction == "+":
             return False
     return True
 
@@ -42,19 +41,30 @@ def test_stages(stages):
 def run1(reports):
     count = 0
     for stages in reports:
-        print(stages, test_stages(stages))
-        if test_stages(stages):
+        if is_safe(stages):
             count += 1
     return count
 
 # =========================================
 
+def is_safe2(stages):
+    if is_safe(stages):
+        return True
+    for i in range(len(stages)):
+        if is_safe(stages[:i]+stages[i+1:]):
+            return True
+    return False
+
+
 def run2(lines: List[str]):
-    pass
+    count = 0
+    for stages in reports:
+        if is_safe2(stages):
+            count += 1
+    return count
 
 
-INPUT = f"{SCRIPT_DIR}/input_test.txt"
-# INPUT = f"{SCRIPT_DIR}/input.txt"
+INPUT = f"{SCRIPT_DIR}/input.txt"
 data = read_input(INPUT)
 reports = parse_data(data)
 
