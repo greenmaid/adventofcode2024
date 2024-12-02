@@ -12,14 +12,6 @@ def read_input(path: str) -> List[str]:
     return lines
 
 
-def read_inputinto_table(path: str) -> List[List[str]]:
-    with open(path, "r") as f:
-        lines = f.read().splitlines()
-    map = []
-    for line in lines:
-        map.append([s for s in line])
-    return map
-
 def parse(lines):
     list1 = []
     list2 = []
