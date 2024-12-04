@@ -2,7 +2,6 @@ package common
 
 import (
 	"encoding/json"
-	"log"
 	"reflect"
 	"slices"
 	"strings"
@@ -16,9 +15,12 @@ func Check(e error) {
 	}
 }
 
-func TimeTrack(start time.Time, name string) {
-	elapsed := time.Since(start)
-	log.Printf("%s took %s", name, elapsed)
+func TimeTrackStart() time.Time {
+	return time.Now()
+}
+
+func TimeTrackStop(start time.Time) time.Duration {
+	return time.Since(start)
 }
 
 // get each line as a list of integer

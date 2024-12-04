@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import time
 from typing import List
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -68,8 +69,12 @@ INPUT = f"{SCRIPT_DIR}/input.txt"
 data = read_input(INPUT)
 reports = parse_data(data)
 
+start1 = time.time()
 result1 = run1(reports)
-print("Result1 = ", result1)
+duration1 = (time.time() - start1) * 1000
+print("Result1 = ", result1, f"    \t(in {duration1:.6f}ms)")
 
+start2 = time.time()
 result2 = run2(reports)
-print("Result2 = ", result2)
+duration2 = (time.time() - start2) * 1000
+print("Result2 = ", result2, f"    \t(in {duration2:.6f}ms)")

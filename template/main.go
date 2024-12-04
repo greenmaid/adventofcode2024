@@ -20,11 +20,15 @@ func main() {
 	data := common.ReadFileByLine(filePath)
 	parsed := parseData(data)
 
+	start1 := common.TimeTrackStart()
 	result1 := step1(parsed)
-	fmt.Println("Result1 = ", result1)
+	duration1 := common.TimeTrackStop(start1)
+	fmt.Printf("Result1 = %d     \t(in %s) \n", result1, &duration1)
 
+	start2 := common.TimeTrackStart()
 	result2 := step2(parsed)
-	fmt.Println("Result2 = ", result2)
+	duration2 := common.TimeTrackStop(start2)
+	fmt.Printf("Result1 = %d       \t(in %s) \n", result2, &duration2)
 }
 
 func parseData(data []string) []string {
