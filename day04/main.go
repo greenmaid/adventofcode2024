@@ -34,7 +34,7 @@ func main() {
 func step1(table [][]rune) int {
 	result := 0
 	for y, row := range table {
-		for x, _ := range row {
+		for x := range row {
 			result += findXMAS(x, y, table)
 		}
 	}
@@ -44,7 +44,7 @@ func step1(table [][]rune) int {
 func step2(table [][]rune) int {
 	result := 0
 	for y, row := range table {
-		for x, _ := range row {
+		for x := range row {
 			if findCrossMAS(x, y, table) {
 				result++
 			}
