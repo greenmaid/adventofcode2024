@@ -11,6 +11,8 @@ run_day:
 	@python ./day$(args)/day*.py
 	@echo ">> Golang"
 	@go run ./day$(args)/main.go
+	@echo ">> Ruby"
+	@ruby ./day$(args)/day*.rb
 
 run_all_python:
 	@time for file in `ls ./day*/day*.py`; do echo -e "\n>> $$file"; python $$file; done
