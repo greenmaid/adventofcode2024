@@ -4,7 +4,7 @@ MAKEFLAGS += --no-print-directory
 args := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 $(eval $(args):dummy;@:)
 
-dummy:	# fake target to avoid erreur manipuling $(args)
+dummy:	# fake target to avoid erreur handling $(args)
 
 run_day:
 	@echo ">> Python"
