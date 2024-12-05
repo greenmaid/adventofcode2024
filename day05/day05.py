@@ -3,6 +3,7 @@
 import os
 import time
 from typing import List
+from functools import cmp_to_key
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -67,7 +68,7 @@ def run1(rules, print_orders):
 
 # =========================================
 
-def get_correct_order(order, rules):
+def get_correct_order_with_swaps(order, rules):
     new = order
     while not is_valid(new, rules):
         index1, index2 = locate_error(new, rules)
@@ -75,11 +76,20 @@ def get_correct_order(order, rules):
     return new
 
 
+def sort_order(order, rules):
+    def custom_comp_fct(a,b):
+        if a in rules and b in rules[a]:
+                return -1
+        return 0
+    return sorted(order, key=cmp_to_key(custom_comp_fct))
+
+
 def run2(rules, print_orders):
     result = 0
     for order in print_orders:
         if not is_valid(order, rules):
-            correct = get_correct_order(order, rules)
+            # correct = get_correct_order_with_swaps(order, rules)  // first try, not so effective
+            correct = sort_order(order, rules)
             result += get_middle(correct)
     return result
 
