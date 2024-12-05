@@ -17,8 +17,8 @@ end
 
 if __FILE__ == $0
 
-    # INPUT_FILE = "input_test.txt"
-    INPUT_FILE = "input.txt"
+    INPUT_FILE = "input_test.txt"
+    # INPUT_FILE = "input.txt"
     data = File.read(File.join(__dir__, INPUT_FILE)).split("\n")
     parsed = parse_data(data)
 

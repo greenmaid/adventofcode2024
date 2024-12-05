@@ -30,7 +30,7 @@ func main() {
 	start2 := common.TimeTrackStart()
 	result2 := step2(reports)
 	duration2 := common.TimeTrackStop(start2)
-	fmt.Printf("Result1 = %d       \t(in %s) \n", result2, &duration2)
+	fmt.Printf("Result2 = %d       \t(in %s) \n", result2, &duration2)
 }
 
 func parseData(lines []string) [][]int {
