@@ -30,17 +30,17 @@ class Guard:
 
     def move(self, obstacles, additional_obstacle):
         next = self.look_forward()
-        while next in obstacles or next == additional_obstacle:
+        if self.is_off_limit(next[0], next[1]):
+            self.off = True
+            return
+        if next in obstacles or next == additional_obstacle:
             self.turn()
-            next = self.look_forward()
+            return
         self.x, self.y = next
         next_visited = (next[0], next[1], self.direction)
         if next_visited in self.visited:
             raise RuntimeError("Loop detected")
-        if not self.is_off_limit():
-            self.visited.add(next_visited)
-        else:
-            self.off = True
+        self.visited.add(next_visited)
 
     def look_forward(self):
         match self.direction:
@@ -57,10 +57,10 @@ class Guard:
     def turn(self):
         self.direction = (self.direction + 1) % 4
 
-    def is_off_limit(self):
-        if self.x < 0 or self.x >= self.limits[0]:
+    def is_off_limit(self, x, y):
+        if x < 0 or x >= self.limits[0]:
             return True
-        if self.y < 0 or self.y >= self.limits[1]:
+        if y < 0 or y >= self.limits[1]:
             return True
         return False
 
@@ -99,24 +99,52 @@ def run1(guard, obstacles):
 # =========================================
 
 
+## Without parallelization
+##
+# def run2(guard, obstacles, visited):
+#     count = 0
+#     for x, y in visited:
+#         if x == guard.x and y == guard.y:
+#             continue
+#         if (x, y) in obstacles:
+#             continue
+#         test_guard = Guard(
+#             x=guard.x,
+#             y=guard.y,
+#             direction=guard.direction,
+#             limits=guard.limits,
+#         )
+#         try:
+#             run(test_guard, obstacles, additional_obstacle=(x,y))
+#         except RuntimeError:
+#             count += 1
+#     return count
+
+
+def run_parallel(guard, obstacles, additional_obstacle):
+    test_guard = Guard(
+        x=guard.x,
+        y=guard.y,
+        direction=guard.direction,
+        limits=guard.limits,
+    )
+    try:
+        run(test_guard, obstacles, additional_obstacle)
+    except RuntimeError:
+        return 1
+    return 0
+
+## With parallelization
 def run2(guard, obstacles, visited):
-    count = 0
-    for x, y in visited:
-        if x == guard.x and y == guard.y:
-            continue
-        if (x, y) in obstacles:
-            continue
-        test_guard = Guard(
-            x=guard.x,
-            y=guard.y,
-            direction=guard.direction,
-            limits=guard.limits,
-        )
-        try:
-            run(test_guard, obstacles, additional_obstacle=(x,y))
-        except RuntimeError:
-            count += 1
-    return count
+    from functools import partial
+    from multiprocessing import Pool
+
+    unary = partial(run_parallel, guard, obstacles)
+
+    with Pool() as p:
+        results = p.map(unary, visited)
+
+    return sum(results)
 
 
 # INPUT = f"{SCRIPT_DIR}/input_test.txt"

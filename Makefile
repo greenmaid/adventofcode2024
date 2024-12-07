@@ -18,10 +18,7 @@ run_all_python:
 	@time for file in `ls ./day*/day*.py`; do echo -e "\n>> $$file"; python $$file; done
 
 run_all:
-	@time for file in `ls ./day*/day*.py`; do \
-		echo -e "\n>> $$dir"; \
-		echo -e "\n>>> Python"; \
-		python $$file; \
-		echo -e "\n>>> Golang"; \
-		go run $$(dirname $$file)/main.go; \
+	@for day in `ls -1d day* | grep -oP 'day(\K[0-9]{2})'`; do \
+		echo ""; echo "# DAY $$day"; \
+		make run_day $$day; \
 		done
