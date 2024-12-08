@@ -13,7 +13,7 @@ def read_input(path: str) -> List[str]:
     return lines
 
 
-def read_inputinto_table(path: str) -> List[List[str]]:
+def read_input_into_table(path: str) -> List[List[str]]:
     with open(path, "r") as f:
         lines = f.read().splitlines()
     map = []
