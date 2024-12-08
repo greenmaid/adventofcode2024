@@ -46,7 +46,7 @@ func simu(coord [3]int, board [][]rune, add_obstacle [2]int) map[[3]int]bool {
 	visited := map[[3]int]bool{coord: true}
 	current := [3]int{coord[0], coord[1], coord[2]}
 	for {
-		next := move_forward(current, board)
+		next := move_forward(current)
 		if next[0] < 0 || next[0] >= len(board[0]) || next[1] < 0 || next[1] >= len(board) {
 			break
 		}
@@ -63,7 +63,7 @@ func simu(coord [3]int, board [][]rune, add_obstacle [2]int) map[[3]int]bool {
 	return visited
 }
 
-func move_forward(current [3]int, board [][]rune) [3]int {
+func move_forward(current [3]int) [3]int {
 	next := current
 	switch current[2] {
 	case 0:
@@ -81,7 +81,7 @@ func move_forward(current [3]int, board [][]rune) [3]int {
 func step1(board [][]rune, coord [3]int) (int, map[[2]int]bool) {
 	visited := simu(coord, board, [2]int{-1, -1})
 	visited_no_direction := make(map[[2]int]bool)
-	for k, _ := range visited {
+	for k := range visited {
 		visited_no_direction[[2]int{k[0], k[1]}] = true
 	}
 	return len(visited_no_direction), visited_no_direction
@@ -89,7 +89,7 @@ func step1(board [][]rune, coord [3]int) (int, map[[2]int]bool) {
 
 func step2(board [][]rune, coord [3]int, visited_step1 map[[2]int]bool) int {
 	count := 0
-	for k, _ := range visited_step1 {
+	for k := range visited_step1 {
 		test_result := simu(coord, board, k)
 		if len(test_result) == 0 {
 			count++
