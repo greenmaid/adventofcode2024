@@ -116,10 +116,7 @@ func findCrossMAS(x int, y int, table [][]rune) bool {
 			table[y+1][x+1],
 			table[y-1][x+1],
 		})
-		if elems[0] != elems[3] {
-			return false
-		}
-		if strings.Count(elems, "M") == 2 && strings.Count(elems, "S") == 2 {
+		if strings.Count(elems, "M") == 2 && strings.Count(elems, "S") == 2 && elems[1] != elems[2] {
 			return true
 		}
 	}
