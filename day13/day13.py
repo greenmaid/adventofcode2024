@@ -26,7 +26,7 @@ class Arcade():
 
     def solve(self, limit=True):
         m = self
-        if ((m.xb * m.ya) - (m.xa * m.yb)) == 0:
+        if (m.xb * m.ya) == (m.xa * m.yb):
             return None
         pressA = ((m.xb * m.targetY) - (m.yb * m.targetX)) / ((m.xb * m.ya) - (m.xa * m.yb))
         pressB = (m.targetX - (pressA * m.xa)) / m.xb
@@ -57,9 +57,6 @@ def parse_data(data):
                     targetY=int(targetY),
                 )
                 arcades.append(arcade)
-            case _:
-                print(machines_descr.replace("=", " ").replace("+", " ").replace("\n", " ").replace(",", " ").split(" "))
-                raise RuntimeError(f"unmatched: {machines_descr}")
     return arcades
 
 # =========================================

@@ -79,7 +79,6 @@ def run2(board, antennas):
                         antinodes.add(antinode2)
                     else:
                         break
-               
     return len(antinodes)
 
 
