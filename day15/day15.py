@@ -154,13 +154,13 @@ def move(position, direction, grid):
 
 def display(grid):
     class bcolors:
-        WARNING = '\033[93m'
+        YELLOW = '\033[93m'
         ENDC = '\033[0m'
 
     for row in grid:
         for c in row:
             if c =="@":
-                print(f"{bcolors.WARNING}@{bcolors.ENDC}", end="")
+                print(f"{bcolors.YELLOW}@{bcolors.ENDC}", end="")
             else:
                 print(c, end="")
         print("")
