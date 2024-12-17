@@ -48,6 +48,7 @@ def execute(program, Registers):
             idx += 2
         if opcode == 5:  # out
             output.append(combo(o, Registers) % 8)
+            # print(output, Registers)
             idx += 2
     return output
 
@@ -61,26 +62,29 @@ def run1(program):
     output = execute(program, Registers)
     return ','.join([str(x) for x in output])
 
-
 # =========================================
 
-
 def run2(program):
-    i = 0
+    factors = [0] * len(program)
+    factors[0] = 1
     while True:
+        init = sum([ k*(8**i) for i,k in enumerate(reversed(factors))])
         Registers = {
-            "A" : i,
+            "A" : init,
             "B" : 0,
             "C" : 0,
         }
-        if i % 1000 == 0:
-            print(i , Registers)
         output = execute(program, Registers)
+        # print(factors, init, output)
         if output == program:
             break
-        i += 1
-    return i
+        for i,v in enumerate(reversed(program)):
+            if list(reversed(output))[i] != v:
+                factors[i] += 1
+                break
+    return factors, init
 
+# program = [0,3,5,4,3,0]
 program = [2,4,1,3,7,5,0,3,1,5,4,1,5,5,3,0]
 
 start1 = time.time()
@@ -89,6 +93,6 @@ duration1 = (time.time() - start1) * 1000
 print("Result1 = ", result1, f"    \t(in {duration1:.6f}ms)")
 
 start2 = time.time()
-result2 = run2(program)
+_, result2 = run2(program)
 duration2 = (time.time() - start2) * 1000
 print("Result2 = ", result2, f"    \t(in {duration2:.6f}ms)")
