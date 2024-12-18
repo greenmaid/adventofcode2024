@@ -61,16 +61,14 @@ def test_path(partial_falling_bytes):
 
 def run2(data):
     interval = (0, len(data))
-    previous = ()
     while True:
         middle = int((interval[1] + interval[0]) / 2)
         falling_bytes = parse_data(data, middle+1)
-        previous = interval
         if test_path(falling_bytes):
             interval = (middle, interval[1])
         else:
             interval = (interval[0], middle)
-        if interval == previous:
+        if interval[0] == interval[1]-1:
             break
     return data[interval[1]]
 
