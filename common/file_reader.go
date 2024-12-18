@@ -58,6 +58,25 @@ func ReadFileToGrid(path string) [][]rune {
 	return content
 }
 
+func ReadFileToIntGrid(path string) [][]int {
+	file, err := os.Open(path)
+	Check(err)
+	defer file.Close()
+	var content [][]int
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		scannedInts := []int{}
+		for _, r := range scanner.Text() {
+			scannedInts = append(scannedInts, int(r-'0'))
+		}
+		content = append(content, scannedInts)
+	}
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+	return content
+}
+
 func DisplayGrid(grid interface{}) {
 	if rows, ok := grid.([][]rune); ok {
 		for _, row := range rows {
