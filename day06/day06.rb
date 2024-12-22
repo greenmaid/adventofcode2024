@@ -8,28 +8,32 @@ def get_position(grid)
   end
 end
 
+DIRECTIONS = {
+  "<" => [-1, 0],
+  ">" => [1, 0],
+  "^" => [0, -1],
+  "v" => [0, 1]
+}
+
 def scan_forward(x, y, direction, grid, additional_obstacle)
-  nx, ny = x-1, y if direction == "<"
-  nx, ny = x+1, y if direction == ">"
-  nx, ny = x, y-1 if direction == "^"
-  nx, ny = x, y+1 if direction == "v"
-  return nx, ny, "" if nx < 0 or ny < 0 or nx > grid[0].size-1 or ny > grid.size-1
-  return nx, ny, "#" if [nx,ny] == additional_obstacle
+  dx, dy = DIRECTIONS[direction]
+  nx, ny = x + dx, y + dy
+  return nx, ny, "" if nx < 0 || ny < 0 || nx >= grid[0].size || ny >= grid.size
+  return nx, ny, "#" if nx == additional_obstacle[0] && ny == additional_obstacle[1]
   return nx, ny, grid[ny][nx]
-
 end
 
-def turn(direction)
-  return "^" if direction == "<"
-  return "v" if direction == ">"
-  return ">" if direction == "^"
-  return "<" if direction == "v"
-end
+TURN = {
+  "<" => "^",
+  ">" => "v",
+  "^" => ">",
+  "v" => "<"
+}
 
 def move(x, y, direction, grid, additional_obstacle)
   nx, ny, forward = scan_forward(x,y, direction, grid, additional_obstacle)
   while forward == "#"
-    direction = turn(direction)
+    direction = TURN[direction]
     nx, ny, forward = scan_forward(x,y, direction, grid, additional_obstacle)
   end
   return nx, ny, direction, forward
@@ -86,8 +90,8 @@ if __FILE__ == $0
   finish = Time.now
   puts "Result1 = #{result1}   \t(in #{'%.6f' % ((finish - start) * 1000)}ms)"
 
-  # start = Time.now
-  # result2 = step2(grid)
-  # finish = Time.now
-  # puts "Result2 = #{result2}   \t(in #{'%.6f' % ((finish - start) * 1000)}ms)"
+  start = Time.now
+  result2 = step2(grid)
+  finish = Time.now
+  puts "Result2 = #{result2}   \t(in #{'%.6f' % ((finish - start) * 1000)}ms)"
 end
