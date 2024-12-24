@@ -41,14 +41,14 @@ def run1(links):
                 if g not in UNICITY:
                     groups.append(g)
                     UNICITY[g] = True
-    
+
     filtered_groups = []
     for g in groups:
         for c in g:
             if c.startswith('t'):
                 filtered_groups.append(g)
                 break
-    
+
     return len(filtered_groups)
 
 # =========================================
